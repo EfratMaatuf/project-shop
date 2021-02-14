@@ -9,7 +9,7 @@ class Header extends React.Component {
       <nav className="product-filter">
         <h1>Jackets</h1>
         <Sort
-          products={this.props.products}
+          categories={this.props.categories}
           category={(category) => this.props.category(category)}
         />
       </nav>
@@ -17,7 +17,7 @@ class Header extends React.Component {
   }
 }
 Header.propTypes = {
-  products: PropTypes.array,
+  categories: PropTypes.array,
   category: PropTypes.func,
 };
 export default Header;

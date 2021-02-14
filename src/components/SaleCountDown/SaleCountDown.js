@@ -5,24 +5,26 @@ import PropTypes from "prop-types";
 class SaleCountDown extends React.Component {
   state = { minutes: 0, seconds: 30, interval: null };
   componentDidMount() {
-    this.state.interval = setInterval(() => {
-      if (this.state.seconds - 1 !== -1) {
-        this.setState((state) => {
-          return { seconds: state.seconds - 1 };
-        });
-      } else {
-        if (this.state.minutes !== 0) {
+    this.setState({
+      interval: setInterval(() => {
+        if (this.state.seconds - 1 !== -1) {
           this.setState((state) => {
-            return { minutes: state.minutes - 1 };
+            return { seconds: state.seconds - 1 };
           });
-          this.setState({ seconds: 59 });
         } else {
-          this.props.end();
-          clearInterval(this.state.interval);
-          this.setState({ interval: null });
+          if (this.state.minutes !== 0) {
+            this.setState((state) => {
+              return { minutes: state.minutes - 1 };
+            });
+            this.setState({ seconds: 59 });
+          } else {
+            this.props.end();
+            clearInterval(this.state.interval);
+            this.setState({ interval: null });
+          }
         }
-      }
-    }, 1000);
+      }, 1000),
+    });
   }
   render() {
     return (

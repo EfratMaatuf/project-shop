@@ -14,7 +14,6 @@ class Filter extends React.Component {
     }
   };
   render() {
-    console.log("this.state.category:  " + this.state.category);
     return (
       <div className="collection-sort">
         <label>Filter by:</label>

@@ -4,18 +4,30 @@ import Header from "./components/Header/Header";
 import Products from "./components/Products/Products";
 
 class App extends React.Component {
-  state = { products: [], category: "View All" };
+  state = { products: [], category: "View All", categories: [] };
+
   async componentDidMount() {
     const res = await fetch("https://fakestoreapi.com/products");
     const json = await res.json();
     this.setState({ products: json });
+
+    let categories;
+    const groupBy = (xs, key) =>
+      xs.reduce((rv, x) => {
+        rv[x[key]] = true || [];
+        return rv;
+      }, {});
+    categories = Object.keys(groupBy(this.state.products, "category"));
+    categories.unshift("View All");
+    this.setState({ categories });
+    console.log(this.state.categories);
   }
+
   render() {
     return (
       <app>
-        <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
         <Header
-          products={this.state.products}
+          categories={this.state.categories}
           category={(category) => this.setState({ category })}
         />
         <Products
