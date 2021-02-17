@@ -1,35 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Filter.css";
 import PropTypes from "prop-types";
 
-class Filter extends React.Component {
-  state = { category: "View All" };
-  handleChange = (event) => {
+const Filter = ({ options, changeCategory }) => {
+  const [chosenCategory, setChosenCategory] = useState("View All");
+  const handleChange = (event) => {
     const value = event.target.value;
     console.log("event.target.value:  " + value);
     if (value) {
-      console.log(this.props);
-      this.setState({ category: value });
-      this.props.category(value);
+      setChosenCategory(value);
+      changeCategory(value);
     }
   };
-  render() {
-    return (
-      <div className="collection-sort">
-        <label>Filter by:</label>
-        <select value={this.state.category} onChange={this.handleChange}>
-          {this.props.options.map((option, index) => (
-            <option value={option} key={index}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="collection-sort">
+      <label>Filter by:</label>
+      <select value={chosenCategory} onChange={handleChange}>
+        {options.map((option, index) => (
+          <option value={option} key={index}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
 Filter.propTypes = {
   options: PropTypes.array,
-  category: PropTypes.func,
+  changeCategory: PropTypes.func,
 };
 export default Filter;

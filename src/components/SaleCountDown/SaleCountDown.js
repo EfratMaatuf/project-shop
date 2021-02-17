@@ -1,52 +1,46 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./SaleCountDown.css";
 import PropTypes from "prop-types";
 
-class SaleCountDown extends React.Component {
-  state = { minutes: 0, seconds: 30, interval: null };
-  componentDidMount() {
-    this.setState({
-      interval: setInterval(() => {
-        if (this.state.seconds - 1 !== -1) {
-          this.setState((state) => {
-            return { seconds: state.seconds - 1 };
-          });
-        } else {
-          if (this.state.minutes !== 0) {
-            this.setState((state) => {
-              return { minutes: state.minutes - 1 };
-            });
-            this.setState({ seconds: 59 });
-          } else {
-            this.props.end();
-            clearInterval(this.state.interval);
-            this.setState({ interval: null });
-          }
-        }
-      }, 1000),
-    });
-  }
-  render() {
-    return (
-      <div className="saleCountDown">
-        {this.state.interval && (
-          <div>
-            נותרו עוד&nbsp;
-            {this.state.minutes > 9
-              ? this.state.minutes
-              : "0" + this.state.minutes}
-            :
-            {this.state.seconds > 9
-              ? this.state.seconds
-              : "0" + this.state.seconds}
-            &nbsp;דקות לסוף המבצע
-          </div>
-        )}
-        {!this.state.interval && <div>המבצע הסתיים</div>}
-      </div>
-    );
-  }
-}
+const SaleCountDown = ({ end }) => {
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(5);
+  const interval = useRef();
+
+  useEffect(() => {
+    interval.current = setInterval(() => {
+      setSeconds((seconds) => seconds - 1);
+    }, 1000);
+  }, []);
+  useEffect(() => {
+    if (seconds === -1) {
+      setSeconds(59);
+      setMinutes((minutes) => minutes - 1);
+    }
+  }, [seconds]);
+  useEffect(() => {
+    if (minutes === 0 && seconds === 0) {
+      console.log("end");
+      end();
+      clearInterval(interval.current);
+      interval.current = null;
+    }
+  }, [minutes, seconds, end]);
+
+  return (
+    <div className="saleCountDown">
+      {interval.current && (
+        <div>
+          נותרו עוד&nbsp;
+          {minutes > 9 ? minutes : "0" + minutes}:
+          {seconds > 9 ? seconds : "0" + seconds}
+          &nbsp;דקות לסוף המבצע
+        </div>
+      )}
+      {!interval.current && <div>המבצע הסתיים</div>}
+    </div>
+  );
+};
 SaleCountDown.propTypes = {
   end: PropTypes.func,
 };
