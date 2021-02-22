@@ -1,40 +1,37 @@
-import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header/Header";
-import Products from "./components/Products/Products";
+import About from "./pages/About/About";
+import Home from "./pages/Home/Home";
+import ProductId from "./pages/ProductId/ProductId";
 
 const App = () => {
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("View All");
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("https://fakestoreapi.com/products");
-      const json = await res.json();
-      setProducts(json);
-    }
-    fetchData();
-  }, []);
-  useEffect(() => {
-    let categories1;
-    const groupBy = (xs, key) =>
-      xs.reduce((rv, x) => {
-        rv[x[key]] = true || [];
-        return rv;
-      }, {});
-    categories1 = Object.keys(groupBy(products, "category"));
-    categories1.unshift("View All");
-    setCategories(categories1);
-  }, [products]);
   return (
-    <div>
-      <Header
-        categories={categories}
-        changeCategory={(category) => setCategory(category)}
-      />
-      <Products products={products} category={category} />
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <Route path="/product/:productId" component={ProductId}></Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+        <footer className="footer">
+          <div className="footer-body">
+            <div> My First Site. </div>
+            <div>
+              <Link to="/">Home</Link>
+              &nbsp; / &nbsp;
+              <Link to="/contactUs">Contact Us</Link>
+              &nbsp; / &nbsp;
+              <Link to="/about">About</Link>
+            </div>
+          </div>
+          <div className="footer-copyright">© Efrat Maatuf.</div>
+        </footer>
+      </div>
+    </Router>
   );
 };
 export default App;

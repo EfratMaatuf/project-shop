@@ -2,8 +2,9 @@ import React from "react";
 import "./Product.css";
 import PropTypes from "prop-types";
 import saleImage from "./saleImage.png";
+import { Link } from "react-router-dom";
 
-const Product = ({ title, image, price, sale }) => {
+const Product = ({ id, title, image, price, sale }) => {
   const style = {
     color: sale ? "red" : "black",
     fontWeight: sale ? "bold" : "normal",
@@ -11,14 +12,18 @@ const Product = ({ title, image, price, sale }) => {
 
   return (
     <div className="product-card">
-      <div className="product-image">
-        <img src={image} alt="img"></img>
-      </div>
-      <div className="product-info">
-        <h5>{title}</h5>
-        <h6 style={style}>{price}$</h6>
-      </div>
-      {sale && <img className="product-sale" src={saleImage} alt="sale"></img>}
+      <Link to={`/product/${id}`}>
+        <div className="product-image">
+          <img className="imgProduct" src={image} alt="img"></img>
+        </div>
+        {sale && (
+          <img className="product-sale" src={saleImage} alt="sale"></img>
+        )}
+        <div className="product-info">
+          <h5>{title}</h5>
+          <h6 style={style}>{price}$</h6>
+        </div>
+      </Link>
     </div>
   );
 };

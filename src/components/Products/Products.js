@@ -21,6 +21,7 @@ const Products = ({ products, category }) => {
       {productsFilter.map(({ id, title, image, price }) => (
         <Product
           key={id}
+          id={id}
           title={title}
           image={image}
           price={price}

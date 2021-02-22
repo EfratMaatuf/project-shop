@@ -3,7 +3,7 @@ import "./SaleCountDown.css";
 import PropTypes from "prop-types";
 
 const SaleCountDown = ({ end }) => {
-  const [minutes, setMinutes] = useState(0);
+  const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(5);
   const interval = useRef();
 
@@ -31,13 +31,13 @@ const SaleCountDown = ({ end }) => {
     <div className="saleCountDown">
       {interval.current && (
         <div>
-          נותרו עוד&nbsp;
+          Sale ends in &nbsp;
           {minutes > 9 ? minutes : "0" + minutes}:
           {seconds > 9 ? seconds : "0" + seconds}
-          &nbsp;דקות לסוף המבצע
+          &nbsp;
         </div>
       )}
-      {!interval.current && <div>המבצע הסתיים</div>}
+      {!interval.current && <div>Sale ended</div>}
     </div>
   );
 };
