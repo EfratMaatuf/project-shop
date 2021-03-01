@@ -10,7 +10,8 @@ const Home = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("https://fakestoreapi.com/products");
+      // const res = await fetch("https://fakestoreapi.com/products");
+      const res = await fetch("http://localhost:8000/");
       const json = await res.json();
       setProducts(json);
     }

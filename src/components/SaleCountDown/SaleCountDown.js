@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import "./SaleCountDown.css";
 import PropTypes from "prop-types";
+import ColorsContext from "../../contexts/ColorsContext";
 
 const SaleCountDown = ({ end }) => {
   const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(5);
   const interval = useRef();
+  const colors = useContext(ColorsContext);
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -28,7 +30,13 @@ const SaleCountDown = ({ end }) => {
   }, [minutes, seconds, end]);
 
   return (
-    <div className="saleCountDown">
+    <div
+      className="saleCountDown"
+      style={{
+        background: colors.backgroundCountDown,
+        color: colors.foregroundCountDown,
+      }}
+    >
       {interval.current && (
         <div>
           Sale ends in &nbsp;
