@@ -5,6 +5,7 @@ import About from "./pages/About/About";
 import Home from "./pages/Home/Home";
 import ProductId from "./pages/ProductId/ProductId";
 import ColorsContext, { Colors } from "./contexts/ColorsContext";
+import ContactUs from "./pages/ContactUs/ContactUs";
 
 const App = () => {
   const [colors, setColors] = useState(Colors.begin);
@@ -26,6 +27,9 @@ const App = () => {
             <Route path="/product/:productId" component={ProductId}></Route>
             <Route path="/about">
               <About />
+            </Route>
+            <Route path="/contactUs">
+              <ContactUs />
             </Route>
             <Route path="/">
               <Home />

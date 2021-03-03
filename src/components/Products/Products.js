@@ -4,10 +4,11 @@ import SaleCountDown from "../SaleCountDown/SaleCountDown";
 import Product from "../Product/Product";
 import PropTypes from "prop-types";
 
-const Products = ({ products, category }) => {
+const Products = ({ products, category, minPrice, maxPrice }) => {
   const [sale, setSale] = useState(true);
   const productsOnSale = [2, 3, 4, 7, 9, 12, 15, 16, 17, 18, 20];
   let productsFilter;
+  let productsFilterPrice;
   if (category !== "View All") {
     productsFilter = products.filter(
       ({ category: categoryPruduct }) => category === categoryPruduct
@@ -15,10 +16,13 @@ const Products = ({ products, category }) => {
   } else {
     productsFilter = products;
   }
+  productsFilterPrice = productsFilter.filter(
+    ({ price }) => price > minPrice && price < maxPrice
+  );
   return (
     <section className="products">
       <SaleCountDown end={() => setSale(false)} />
-      {productsFilter.map(({ id, title, image, price }) => (
+      {productsFilterPrice.map(({ id, title, image, price }) => (
         <Product
           key={id}
           id={id}
@@ -34,5 +38,7 @@ const Products = ({ products, category }) => {
 Products.propTypes = {
   products: PropTypes.array,
   category: PropTypes.string,
+  minPrice: PropTypes.number,
+  maxPrice: PropTypes.number,
 };
 export default Products;

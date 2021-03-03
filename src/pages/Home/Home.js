@@ -7,11 +7,13 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("View All");
   const [categories, setCategories] = useState([]);
+  const [minPrice, setMinPrice] = useState([0]);
+  const [maxPrice, setMaxPrice] = useState([1000]);
 
   useEffect(() => {
     async function fetchData() {
-      // const res = await fetch("https://fakestoreapi.com/products");
-      const res = await fetch("http://localhost:8000/");
+      const res = await fetch("https://fakestoreapi.com/products");
+      // const res = await fetch("http://localhost:8000/products");
       const json = await res.json();
       setProducts(json);
     }
@@ -33,8 +35,15 @@ const Home = () => {
       <Header
         categories={categories}
         changeCategory={(category) => setCategory(category)}
+        changeMinPrice={(minPrice) => setMinPrice(minPrice)}
+        changeMaxPrice={(maxPrice) => setMaxPrice(maxPrice)}
       />
-      <Products products={products} category={category} />
+      <Products
+        products={products}
+        category={category}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+      />
     </>
   );
 };

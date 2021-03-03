@@ -48,3 +48,7 @@ footer {
   text-align: left;
   font-family: monospace;
 }
+
+footer {
+  position: fixed;
+}
